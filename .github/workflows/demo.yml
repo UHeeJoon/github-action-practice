@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-        echo "variables"
-        echo "${{toJSON(vars)}}"
+        echo "secrets"
+        echo "${{toJSON(secrets)}}"
 

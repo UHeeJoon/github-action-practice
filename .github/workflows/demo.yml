@@ -15,7 +15,7 @@ jobs:
     - env:
         STEP_ENV: "step env"
       run: |
-        echo "actions env"
-        echo "${{ toJSON(env) }}"
+        echo "actions github"
+        echo "${{ toJSON(github) }}"
       
 

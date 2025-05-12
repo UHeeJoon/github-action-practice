@@ -4,7 +4,7 @@ on:
     branches:
     - main
 env:
-  GIT_TOKEN: ${{ secret.GIT_TOKEN }}
+  GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
   TARGET_REPOSITORY: ${{ vars.TARGET_REPOSITORY }}
   
 jobs:

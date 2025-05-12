@@ -4,18 +4,27 @@ on:
     branches:
     - main
 env:
-  GLOBAL_ENV: "global env"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS }}
+  
+  AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+  ECR_REPOSITORY_NAME: $${{ vars.ECR_REPOSITORY_NAME }}
+
 jobs:
-  job1:
-    env:
-      JOB_ENV: "job env"
-    name: Job 1
+  push:
     runs-on: ubuntu-latest
     steps:
-    - env:
-        STEP_ENV: "step env"
-      run: |
-        echo "actions github"
-        echo "${{ toJSON(github) }}"
+    - uses: actions/checkout@v4
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+    - uses: aws-actions/amazon-ecr-login@v2
+    - uses: docker/build-push-actions@v5
+      with: 
+        context: .
+        push: true
+        tags: ${{ env.ECR_REPOSITORY_NAME }}:${{ github.sha }}
       
 

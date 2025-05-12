@@ -18,7 +18,7 @@ jobs:
       - uses: fjogeleit/yaml-update-action@main
         with: 
           valueFile: 'values.yaml'
-          value: ${{ gthub.sha }}
+          value: ${{ github.sha }}
           propertyPath: 'image.tag'
           message: 'ci: Update image tag to ${{ github.sha }}'
           commitChange: true

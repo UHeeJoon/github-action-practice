@@ -4,24 +4,19 @@ on:
     branches:
     - main
 env:
-  GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-  TARGET_REPOSITORY: ${{ vars.TARGET_REPOSITORY }}
-  
+  AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+  ECR_REPOSITORY_NAME: ${{ vars.ECR_REPOSITORY_NAME }}
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [demo-runner]
     steps:
       - uses: actions/checkout@v4
-        with: 
-          repository: ${{ env.TARGET_REPOSITORY }}
-          token: ${{ env.GIT_TOKEN }}
-      - uses: fjogeleit/yaml-update-action@main
-        with: 
-          valueFile: 'values.yaml'
-          value: ${{ github.sha }}
-          propertyPath: 'image.tag'
-          message: 'ci: Update image tag to ${{ github.sha }}'
-          commitChange: true
-          branch: main
-          repository: ${{ env.TARGET_REPOSITORY }}
-          token: ${{ env.GIT_TOKEN }}
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - uses: docekr/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.ECR_REPOSITORY_NAME }}:${{ github.sha }}

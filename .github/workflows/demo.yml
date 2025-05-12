@@ -4,8 +4,8 @@ on:
     branches:
     - main
 env:
-  AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
-  ECR_REPOSITORY_NAME: ${{ vars.ECR_REPOSITORY_NAME }}
+  AWS_DEFAULT_REGION: ap-northeast-2
+  ECR_REPOSITORY_NAME: 038462773075.dkr.ecr.ap-northeast-2.amazonaws.com/github-action
 
 jobs:
   push:

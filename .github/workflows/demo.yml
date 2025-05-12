@@ -21,7 +21,7 @@ jobs:
         aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_DEFAULT_REGION }}
     - uses: aws-actions/amazon-ecr-login@v2
-    - uses: docker/build-push-actions@v5
+    - uses: docker/build-push-action@v6
       with: 
         context: .
         push: true
